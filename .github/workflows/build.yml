@@ -7,14 +7,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
+        
       - name: Build
         run: |
           msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=17.0
-      
-      # 關鍵修正：改用通配符搜尋，這樣不管它產在 x64/Release 還是其他地方都能找到
+          
+      # 關鍵步驟：印出編譯後的檔案目錄，幫你抓出檔案藏在哪
+      - name: List files to find exe
+        run: dir /s /b *.exe
+        
       - name: Upload kdmapper
         uses: actions/upload-artifact@v4
         with:
           name: kdmapper-binary
           path: |
-            **/kdmapper.exe
+            **/*.exe
