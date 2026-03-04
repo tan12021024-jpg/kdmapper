@@ -2,13 +2,12 @@ name: Build kdmapper
 on: [push]
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
-      - name: Add MSBuild to PATH
-        uses: microsoft/setup-msbuild@v1
       - name: Build
-        run: msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=17.0 /m
+        run: |
+          msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=17.0 /p:UseWDK=true
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
