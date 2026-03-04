@@ -5,9 +5,15 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
+      
+      # 這是關鍵：手動設定 MSVC 環境變數
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        
       - name: Build
         run: |
           msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=17.0
+          
       - name: Upload kdmapper
         uses: actions/upload-artifact@v4
         with:
