@@ -13,8 +13,14 @@ jobs:
         run: |
           msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=17.0
           
+      # 這一步會把編譯後目錄下的所有檔案列出來，方便我們檢查
+      - name: Debug - List all files
+        run: Get-ChildItem -Path . -Recurse | Select-Object -ExpandProperty FullName
+        
       - name: Upload kdmapper
         uses: actions/upload-artifact@v4
         with:
           name: kdmapper-binary
-          path: x64/Release/kdmapper_Release.exe
+          path: |
+            **/kdmapper_*.exe
+            **/kdmapper.exe
