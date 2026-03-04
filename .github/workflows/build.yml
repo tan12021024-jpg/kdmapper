@@ -12,13 +12,15 @@ jobs:
         run: |
           msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=17.0
           
-      # 關鍵步驟：印出編譯後的檔案目錄，幫你抓出檔案藏在哪
-      - name: List files to find exe
-        run: dir /s /b *.exe
+      # 使用正確的 PowerShell 指令來列出檔案
+      - name: Find compiled files
+        shell: powershell
+        run: Get-ChildItem -Recurse -Filter *.exe | Select-Object -ExpandProperty FullName
         
       - name: Upload kdmapper
         uses: actions/upload-artifact@v4
         with:
           name: kdmapper-binary
           path: |
-            **/*.exe
+            **/kdmapper.exe
+            **/kdmapper_x64.exe
