@@ -1,0 +1,30 @@
+name: Build kdmapper
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: kdmapper-binary
+          path: x64/Release/kdmapper.exe
+EOFmkdir -p .github/workflows
+cat <<EOF > .github/workflows/build.yml
+name: Build kdmapper
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: msbuild kdmapper.sln /p:Configuration=Release /p:Platform=x64
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: kdmapper-binary
+          path: x64/Release/kdmapper.exe
